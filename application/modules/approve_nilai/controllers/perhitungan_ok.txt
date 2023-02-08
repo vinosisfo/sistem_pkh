@@ -1,0 +1,7 @@
+SELECT A1.id_penilaian_detail,REPLACE(A1.nama_kriteria,' ','_') as nama_kriteria,((A1.bobot_nilai_kriteria/A1.nilai_max)*A1.bobot_kriteria)/100 as nilai_akhir from (
+    SELECT A.kode_penilaian,B.id_penilaian_detail,A.no_kk,B.kode_kriteria,c.nama_kriteria,B.bobot_nilai_kriteria,
+    (SELECT MAX(A1.bobot_nilai_kriteria) as nilai_max FROM penilaian_detail A1 INNER JOIN penilaian B1 ON B1.kode_penilaian=A1.kode_penilaian WHERE B1.tgl_penilaian='2019-01-01' AND A1.kode_kriteria=B.kode_kriteria) AS nilai_max,C.bobot_kriteria
+    FROM penilaian A INNER JOIN penilaian_detail B ON B.kode_penilaian=A.kode_penilaian
+    INNER JOIN kriteria C ON C.kode_kriteria=B.kode_kriteria
+    WHERE A.tgl_penilaian='2019-01-01'
+ ) A1
